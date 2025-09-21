@@ -7,6 +7,8 @@ const router = Router();
 router.get("/", boardController.getAllBoards);
 // GET board by id
 router.get("/:id", boardController.getBoardById);
+// GET boards by user id
+router.get("/user/:userId", boardController.getBoardsByUser);
 // POST create new board
 router.post("/", boardController.createBoard);
 // PUT update board

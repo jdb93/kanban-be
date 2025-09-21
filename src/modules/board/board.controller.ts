@@ -20,6 +20,22 @@ export async function getBoardById(req: Request, res: Response) {
     }
 }
 
+export async function getBoardsByUser(req: Request, res: Response) {
+    try {
+       const { userId } = req.params;
+       const boards = await boardService.getBoardsByUserId(userId!);
+       
+       if (!boards || boards.length === 0) {
+        return res.status(404).json({ message: "No boards found for the user" });
+       }
+
+       res.status(200).json(boards);
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+
+}
+
 export async function createBoard(req: Request, res: Response) {
     try {
         const newBoard = await boardService.create(req.body);

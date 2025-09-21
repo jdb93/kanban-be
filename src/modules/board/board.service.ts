@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { CreateBoardDTO, UpdateBoardDTO } from "../../types/board";
+import { getBoardsByUser } from './board.controller';
 
 const prisma = new PrismaClient();
 
@@ -12,6 +13,21 @@ export async function getById(id: string) {
     return prisma.board.findUnique({ 
         where: { id },
         include: { columns: true },
+    });
+}
+
+export async function getBoardsByUserId(userId: string) {
+    return prisma.board.findMany({
+        where: {
+            members: {
+                some: {
+                    id: userId,
+                },
+            },
+        },
+        include: {
+            members: true,
+        }
     });
 }
 

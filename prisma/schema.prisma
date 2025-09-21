@@ -14,12 +14,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum BoardRole {
+  ADMIN
+  MEMBER
+  VIEWER
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  boards    BoardMember[]
+  tasks     Task[]
+  comments  Comment[]
+}
+
 model Board {
   id        String   @id @default(uuid())
   name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   columns   Column[]
+  members   BoardMember[]
 }
 
 model Column {
@@ -43,6 +62,8 @@ model Task {
   columnId String
   column   Column    @relation(fields: [columnId], references: [id], onDelete: Cascade)
   comments Comment[]
+  userId   String
+  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Comment {
@@ -52,4 +73,17 @@ model Comment {
   updatedAt DateTime @updatedAt
   taskId    String
   task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  userId   String
+  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model BoardMember {
+  id     String @id @default(uuid())
+  boardId String
+  userId  String
+  role    BoardRole @default(MEMBER)
+  board   Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, boardId])
 }
