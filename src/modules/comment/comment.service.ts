@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '../../generated/prisma';
 import { CreateCommentDTO, UpdateCommentDTO } from '../../types/comment';
 
 const prisma = new PrismaClient();
@@ -19,16 +19,20 @@ export async function create(commentData: CreateCommentDTO) {
     return prisma.comment.create({ data: {
         content: commentData.content,
         taskId: commentData.taskId,
+        userId: commentData.userId,
     }});
 }
 
 export async function update(id: string, commentData: UpdateCommentDTO) {
+    const updateData: { content?: string } = {};
+    if (commentData.content !== undefined) {
+        updateData.content = commentData.content;
+    }
+
     return prisma.comment.update({
         where: { id },
-        data: {
-            content: commentData.content,
-        }
-    })
+        data: updateData,
+    });
 }
 
 export async function remove(id: string) {

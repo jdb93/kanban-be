@@ -1,6 +1,5 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '../../generated/prisma';
 import { CreateBoardDTO, UpdateBoardDTO } from "../../types/board";
-import { getBoardsByUser } from './board.controller';
 
 const prisma = new PrismaClient();
 
@@ -32,15 +31,19 @@ export async function getBoardsByUserId(userId: string) {
 }
 
 export async function create(boardData: CreateBoardDTO) {
-    return prisma.board.create({ data: {
+    const data: any = {
         name: boardData.name,
-        columns: boardData.columns ? 
-        {
-            create: boardData.columns.map(column => ({ name: column.name }))
-        }
-        : undefined,
-    },
-    include: { columns: true },
+    };
+
+    if (boardData.columns) {
+        data.columns = {
+            create: boardData.columns.map(column => ({ name: column.name })),
+        };
+    }
+
+    return prisma.board.create({
+        data,
+        include: { columns: true },
     });
 }
 
@@ -48,7 +51,7 @@ export async function update(id: string, boardData: UpdateBoardDTO) {
     return prisma.board.update({ 
         where: { id },
         data: {
-            name: boardData.name,
+            name: boardData.name ?? "",
         },
         include: { columns: true },
         });

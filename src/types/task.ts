@@ -18,6 +18,7 @@ export interface CreateTaskDTO {
     priority: number;
     status: string;
     columnId: string;
+    userId: string;
 };
 
 export interface UpdateTaskDTO {

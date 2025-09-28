@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '../../generated/prisma';
 import { CreateTaskDTO, UpdateTaskDTO } from '../../types/task';
 
 const prisma = new PrismaClient();
@@ -38,10 +38,11 @@ export async function getById(id: string) {
 export async function create(taskData: CreateTaskDTO) {
     return prisma.task.create({ data: {
         title: taskData.title,
-        description: taskData.description,
+        description: taskData.description ?? "",
         priority: taskData.priority,
         status: taskData.status,
         columnId: taskData.columnId,
+        userId: taskData.userId,
     }});
 }
 
@@ -50,7 +51,7 @@ export async function update(id: string, taskData: UpdateTaskDTO) {
         where: { id },
         data: {
             title: taskData.title,
-            description: taskData.description,
+            description: taskData.description ?? "",
             priority: taskData.priority,
             status: taskData.status,
             columnId: taskData.columnId,

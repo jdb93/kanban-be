@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '../../generated/prisma';
 import { AddBoardMemberDTO, UpdateBoardMemberDTO } from '../../types/boardMember';
 
 const prisma = new PrismaClient();

@@ -9,6 +9,7 @@ export interface CommentDTO {
 export interface CreateCommentDTO {
     content: string;
     taskId: string;
+    userId: string;
 }
 
 export interface UpdateCommentDTO {

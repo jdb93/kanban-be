@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '../../generated/prisma';
 import { CreateColumnDTO, UpdateColumnDTO } from '../../types/column';
 
 const prisma = new PrismaClient();
@@ -26,7 +26,7 @@ export async function update(id: string, columnData: UpdateColumnDTO) {
     return prisma.column.update({
         where: { id },
         data: {
-            name: columnData.name,
+            name: columnData.name ?? "defaultName",
         },
         include: { tasks: true },
     });
