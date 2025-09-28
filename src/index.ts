@@ -3,6 +3,7 @@ import boardRoutes from './modules/board/board.routes';
 import columnRoutes from './modules/column/column.routes';
 import commentsRoutes from './modules/comment/comment.routes';
 import tasksRoutes from './modules/task/task.routes';
+import boardMemberRoutes from './modules/boardMember/boardMember.routes';
 
 require('dotenv').config();
 
@@ -13,6 +14,7 @@ app.use("/boards", boardRoutes);
 app.use("/columns", columnRoutes);
 app.use("/comments", commentsRoutes);
 app.use("/tasks", tasksRoutes); 
+app.use("/board-members", boardMemberRoutes);
 
 app.get("/", (req: Request, res: Response) => {
     res.send("API is running...");
