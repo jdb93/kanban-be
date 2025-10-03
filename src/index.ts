@@ -1,14 +1,16 @@
 import express, { Request, Response } from 'express';
+import "dotenv/config";
 import boardRoutes from './modules/board/board.routes';
 import columnRoutes from './modules/column/column.routes';
 import commentsRoutes from './modules/comment/comment.routes';
 import tasksRoutes from './modules/task/task.routes';
 import boardMemberRoutes from './modules/boardMember/boardMember.routes';
-
-require('dotenv').config();
+import admin from "./config/firebase"
 
 const app = express();
+
 app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // https://www.geeksforgeeks.org/web-tech/express-js-express-urlencoded-function/
 
 app.use("/boards", boardRoutes);
 app.use("/columns", columnRoutes);
