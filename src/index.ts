@@ -5,13 +5,14 @@ import columnRoutes from './modules/column/column.routes';
 import commentsRoutes from './modules/comment/comment.routes';
 import tasksRoutes from './modules/task/task.routes';
 import boardMemberRoutes from './modules/boardMember/boardMember.routes';
-import admin from "./config/firebase"
+import authRoutes from './modules/auth/auth.routes';
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // https://www.geeksforgeeks.org/web-tech/express-js-express-urlencoded-function/
 
+app.use("/auth", authRoutes);
 app.use("/boards", boardRoutes);
 app.use("/columns", columnRoutes);
 app.use("/comments", commentsRoutes);

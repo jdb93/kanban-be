@@ -15,4 +15,6 @@ admin.initializeApp({
   }),
 });
 
-export default admin;
+export const getAdminAuth: () => admin.auth.Auth = () => {
+  return admin.auth();
+};
